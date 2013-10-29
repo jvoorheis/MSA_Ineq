@@ -1,9 +1,17 @@
 set more off
 cd "$MSAINEQ/Data"
 *do "$MSAINEQ/Code/read_CPS.do"
-do "$MSAINEQ/Code/cps_00034.do"
+do "$MSAINEQ/Code/cps_00047.do"
+
+*Encode demographics for Larrimore cell mean imputation
+gen latino = (hispan~=. & hispan>0 & hispan<900)
+gen black = race==200 & hispan==0
+gen white = latino==0 & race!=200
+gen female = sex == 2
+gen fulltime = (hrswork>=35 & wkswork1>=50) | (uhrswork>=35 & wkswork1>=50)
 
 *Recode missing (NIU) values
+recode inclongj (999999=.)
 recode inctot (99999999=.)
 recode ftotval (99999999=.)
 recode incwage (9999999=.)
@@ -33,6 +41,25 @@ recode incgov (99999=.)
 recode incidr (99999=.)
 recode incdrt (99999=.)
 recode incaloth (99999=.)
+recode increti1 (99999=.)
+recode increti2 (99999=.)
+recode incsurv1 (99999=.)
+recode incsurv2 (99999=.)
+recode incdisa1 (99999=.)
+recode incdisa2 (99999=.)
+recode oincfarm (999999=.)
+recode oincbus (999999=.)
+recode oincwage (9999999=.)
+recode eitcred (9999=.)
+recode fedtax (999999=.)
+recode fedtaxac (999999=.)
+recode eitcred (9999=.)
+recode margtax (99=.)
+recode statetax (999999=.)
+recode statetaxac (999999=.)
+recode educ (1=.) (999=.)
+
+
 
 
 *Replace hard-coded IPUMS top code flag with the actual top code for the relevant year (Larrimore et al (2008) for the top codes)
@@ -74,6 +101,10 @@ replace incother = 99999 if incother==99997 & year<=1998 & incother~=.
 replace incother = 25000 if incother==99997 & year>1998 & year<=2011 & incother~=.
 replace incother = 31200 if incother==99997 & year==2012 & incother~=.
 replace incdivid=99999 if incdivid==99997
+replace inclongj=99999 if inclongj==99997
+replace inclongj=9999999 if inclongj==9999997
+
+
 
 *Truncate negative income amounts to zero
 *replace incbus = 0 if incbus<0 & incbus~=.

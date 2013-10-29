@@ -5,37 +5,40 @@ gen topcoded=0
 
 *Flagging all Topcoded observations (note: multiple income sources can be topcoded for a single observation)
 *Total Income (post 1988)
-replace topcoded=1 if inctot>=99999 & year<=1995 & inctot~=.
-replace topcoded=1 if inctot>=150000 & year>=1996 & year<=2002 & inctot~=.
-replace topcoded=1 if inctot>=200000 & year>=2003 & year<=2010 & inctot~=.
-replace topcoded=1 if inctot>=250000 & year>=2011 & inctot~=.
+replace topcoded=1 if inclongj>=99999 & year<=1995 & inclongj~=.
+replace topcoded=1 if inclongj>=150000 & year>=1996 & year<=2002 & inclongj~=.
+replace topcoded=1 if inclongj>=200000 & year>=2003 & year<=2010 & inclongj~=.
+replace topcoded=1 if inclongj>=250000 & year>=2011 & inclongj~=.
 
 *Wages
 replace topcoded=1 if incwage>=50000 & year<=1981 & incwage~=.
 replace topcoded=1 if incwage>=75000 & year>=1982 & year<=1984 & incwage~=.
-replace topcoded=1 if incwage>=99999 & year>=1985 & year<=1995 & incwage~=.
-replace topcoded=1 if incwage>=25000 & year>=1996 & year<=2002 & incwage~=.
-replace topcoded=1 if incwage>=35000 & year>=2003 & year<=2010 & incwage~=.
-replace topcoded=1 if incwage>=47000 & year==2011 & incwage~=.
-replace topcoded=1 if incwage>=50000 & year==2012 & incwage~=.
+replace topcoded=1 if incwage>=99999 & year>=1985 & year<=1987 & incwage~=.
+replace topcoded=1 if oincwage>=99999 & year>=1988 & year<=1985 & oincwage~=.
+replace topcoded=1 if oincwage>=25000 & year>=1996 & year<=2002 & oincwage~=.
+replace topcoded=1 if oincwage>=35000 & year>=2003 & year<=2010 & oincwage~=.
+replace topcoded=1 if oincwage>=47000 & year==2011 & oincwage~=.
+replace topcoded=1 if oincwage>=50000 & year==2012 & oincwage~=.
 
 *Business/Self Employment Income
 replace topcoded=1 if incbus>=50000 & year<=1981 &incbus~=.
 replace topcoded=1 if incbus>=75000 & year>=1982 & year<=1984 &incbus~=.
-replace topcoded=1 if incbus>=99999 & year>=1985 & year<=1995 &incbus~=.
-replace topcoded=1 if incbus>=40000 & year>=1996 & year<=2002 &incbus~=.
-replace topcoded=1 if incbus>=50000 & year>=2003 & year<=2010 &incbus~=.
-replace topcoded=1 if incbus>=60000 & year==2011 &incbus~=.
-replace topcoded=1 if incbus>=60000 & year==2012 &incbus~=.
+replace topcoded=1 if incbus>=99999 & year>=1985 & year<=1987 &incbus~=.
+replace topcoded=1 if oincbus>=99999 & year>=1988 & year<=1995 &oincbus~=.
+replace topcoded=1 if oincbus>=40000 & year>=1996 & year<=2002 &oincbus~=.
+replace topcoded=1 if oincbus>=50000 & year>=2003 & year<=2010 &oincbus~=.
+replace topcoded=1 if oincbus>=60000 & year==2011 &oincbus~=.
+replace topcoded=1 if oincbus>=60000 & year==2012 &oincbus~=.
 
 *Farm Income
 replace topcoded=1 if incfarm>=50000 & year<=1981 &incfarm~=.
 replace topcoded=1 if incfarm>=75000 & year>=1982 & year<=1984 &incfarm~=.
-replace topcoded=1 if incfarm>=99999 & year>=1985 & year<=1995 &incfarm~=.
-replace topcoded=1 if incfarm>=25000 & year>=1996 & year<=2002 &incfarm~=.
-replace topcoded=1 if incfarm>=25000 & year>=2003 & year<=2010 &incfarm~=.
-replace topcoded=1 if incfarm>=30000 & year==2011 &incfarm~=.
-replace topcoded=1 if incfarm>=40000 & year==2012 &incfarm~=.
+replace topcoded=1 if incfarm>=99999 & year>=1985 & year<=1987 &incfarm~=.
+replace topcoded=1 if oincfarm>=99999 & year>=1988 & year<=1995 &oincfarm~=.
+replace topcoded=1 if oincfarm>=25000 & year>=1996 & year<=2002 &oincfarm~=.
+replace topcoded=1 if oincfarm>=25000 & year>=2003 & year<=2010 &oincfarm~=.
+replace topcoded=1 if oincfarm>=30000 & year==2011 &oincfarm~=.
+replace topcoded=1 if oincfarm>=40000 & year==2012 &oincfarm~=.
 
 *SS Income
 replace topcoded=1 if incss>=9999 & year<=1981 &incss~=.
@@ -83,10 +86,15 @@ replace topcoded=1 if incvet>=99999 & incvet~=.
 *Retirement Income
 replace topcoded=1 if incretir>=50000 & year<=1981 &incretir~=.
 replace topcoded=1 if incretir>=75000 & year>=1982 & year<=1984 &incretir~=.
-replace topcoded=1 if incretir>=99999 & year>=1985 & year<=1998 &incretir~=.
-replace topcoded=1 if incretir>=45000 & year>=1999 & year<=2010 &incretir~=.
-replace topcoded=1 if incretir>=64000 & year==2011 &incretir~=.
-replace topcoded=1 if incretir>=67000 & year==2012 &incretir~=.
+replace topcoded=1 if incretir>=99999 & year>=1985 & year<=1987 &incretir~=.
+replace topcoded=1 if increti1>=99999 & year>=1988 & year<=1998 &increti1~=.
+replace topcoded=1 if increti1>=45000 & year>=1999 & year<=2010 &increti1~=.
+replace topcoded=1 if increti1>=64000 & year==2011 &increti1~=.
+replace topcoded=1 if increti1>=67000 & year==2012 &increti1~=.
+replace topcoded=1 if increti2>=99999 & year>=1988 & year<=1998 &increti2~=.
+replace topcoded=1 if increti2>=45000 & year>=1999 & year<=2010 &increti2~=.
+replace topcoded=1 if increti2>=64000 & year==2011 &increti2~=.
+replace topcoded=1 if increti2>=67000 & year==2012 &increti2~=.
 
 *Other Income
 replace topcoded=1 if incaloth>=50000 & year<=1981 &incaloth~=.
@@ -115,16 +123,26 @@ replace topcoded=1 if incchild>=18300 & year==2012 & incchild~=.
 replace topcoded=1 if incunemp>=99999 &incunemp~=.
 
 *Survivor Benefits
-replace topcoded=1 if incsurv>=99999 & year<=1998 & incsurv~=.
-replace topcoded=1 if incsurv>=50000 & year>=1999 & year<=2010 & incsurv~=.
-replace topcoded=1 if incsurv>=57600 & year==2011 & incsurv~=.
-replace topcoded=1 if incsurv>=75000 & year==2012 & incsurv~=.
+replace topcoded=1 if incsurv>=99999 & year<=1987 & incsurv~=.
+replace topcoded=1 if incsurv1>=99999 & year>=1988 & year<=1998 & incsurv1~=.
+replace topcoded=1 if incsurv1>=50000 & year>=1999 & year<=2010 & incsurv1~=.
+replace topcoded=1 if incsurv1>=57600 & year==2011 & incsurv1~=.
+replace topcoded=1 if incsurv1>=75000 & year==2012 & incsurv1~=.
+replace topcoded=1 if incsurv2>=99999 & year>=1988 & year<=1998 & incsurv2~=.
+replace topcoded=1 if incsurv2>=50000 & year>=1999 & year<=2010 & incsurv2~=.
+replace topcoded=1 if incsurv2>=57600 & year==2011 & incsurv2~=.
+replace topcoded=1 if incsurv2>=75000 & year==2012 & incsurv2~=.
 
 *Disability Benefits
-replace topcoded=1 if incdisab>=99999 & year<=1998 & incdisab~=.
-replace topcoded=1 if incdisab>=35000 & year>=1999 & year<=2010 & incdisab~=.
-replace topcoded=1 if incdisab>=48000 & year==2011 & incdisab~=.
-replace topcoded=1 if incdisab>=44000 & year==2012 & incdisab~=.
+replace topcoded=1 if incdisab>=99999 & year<=1987 & incdisab~=.
+replace topcoded=1 if incdisa1>=99999 & year>=1988 & year<=1998 & incdisa1~=.
+replace topcoded=1 if incdisa1>=35000 & year>=1999 & year<=2010 & incdisa1~=.
+replace topcoded=1 if incdisa1>=48000 & year==2011 & incdisa1~=.
+replace topcoded=1 if incdisa1>=44000 & year==2012 & incdisa1~=.
+replace topcoded=1 if incdisa2>=99999 & year>=1988 & year<=1998 & incdisa2~=.
+replace topcoded=1 if incdisa2>=35000 & year>=1999 & year<=2010 & incdisa2~=.
+replace topcoded=1 if incdisa2>=48000 & year==2011 & incdisa2~=.
+replace topcoded=1 if incdisa2>=44000 & year==2012 & incdisa2~=.
 
 *Educational Assistance
 replace topcoded=1 if inceduc>=99999 & year<=1998 & inceduc~=.

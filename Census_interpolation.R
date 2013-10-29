@@ -29,18 +29,18 @@ for (i in MSA.unique){
 Census_interpolated<-data.frame(MSA, year, Census_gini)
 save(Census_interpolated, file="Census_interpolated_MSA.rda")
 
-
-setwd("/media/john/Shared Linux_Windows Files/MSA Level Inequality/Results/Census/")
-for (i in MSA.unique){
-  temp.df<-subset(Census_interpolated, Census_interpolated$MSA==i)
-  temp.MSA<-unlist(strsplit(i, "/"))[1]
-  filename<-paste(temp.MSA, ".jpg", sep="")
-  jpeg(file=filename)
-  print(ggplot(temp.df, aes(year)) + 
-          geom_line(aes(y=Census_gini, colour="Census_gini"))+
-          opts(title=i))
-  dev.off()
-}
+# 
+# setwd("/media/john/Shared Linux_Windows Files/MSA Level Inequality/Results/Census/")
+# for (i in MSA.unique){
+#   temp.df<-subset(Census_interpolated, Census_interpolated$MSA==i)
+#   temp.MSA<-unlist(strsplit(i, "/"))[1]
+#   filename<-paste(temp.MSA, ".jpg", sep="")
+#   jpeg(file=filename)
+#   print(ggplot(temp.df, aes(year)) + 
+#           geom_line(aes(y=Census_gini, colour="Census_gini"))+
+#           opts(title=i))
+#   dev.off()
+# }
 
 setwd("/media/john/Shared Linux_Windows Files/MSA Level Inequality/Data/")
 load("/media/john/Shared Linux_Windows Files/MSA Level Inequality/Data/Census_cellmean_gini.rda")
@@ -62,17 +62,17 @@ for (i in MSA.unique){
 cellmean_interpolated<-data.frame(MSA, year, cellmean_gini)
 save(cellmean_interpolated, file="cellmean_interpolated_MSA.rda")
 
-load("/media/john/Shared Linux_Windows Files/MSA Level Inequality/Data/NatlGB2_72.rda")
+load("/media/john/Shared Linux_Windows Files/MSA Level Inequality/Data/CPS_NatlGB2_723_cellmean.rda")
 NatlGB2.df<-data.table(NatlGB2.df)
 Census_interpolated<-data.table(Census_interpolated)
 setkey(NatlGB2.df, MSA, year)
 setkey(Census_interpolated, MSA, year)
 try1<-NatlGB2.df[Census_interpolated]
-#try1<-try1[cellmean_interpolated]
-try1<-subset(try1, is.na(try1$Gini_NatlGB2)==F)
-try1$Avg_Gini<-(try1$Gini_NatlGB2+try1$Census_gini)/2
-try1$Avg_cellmean<-(try1$Gini_NatlGB2+try1$cellmean_gini)/2
-
+try1<-try1[cellmean_interpolated]
+try1<-subset(try1, is.na(try1$CPS_Gini_NatlGB2_cellmean)==F)
+try1$Avg_Gini<-(try1$CPS_Gini_NatlGB2_cellmean+try1$Census_gini)/2
+try1$Avg_cellmean<-(try1$CPS_Gini_NatlGB2_cellmean+try1$cellmean_gini)/2
+try2<-try1
 
 
 setwd("/media/john/Shared Linux_Windows Files/MSA Level Inequality/Results/EqualWeights/")
@@ -83,19 +83,14 @@ for (i in MSA.unique){
   filename<-paste(temp.MSA, ".png", sep="")
   png(file=filename)
   print(ggplot(temp.df, aes(year)) + 
-          geom_line(aes(y=Avg_Gini, colour="Avg_Gini"))+
-          geom_line(aes(y=Gini_NatlGB2, colour="Gini_NatlGB2"))+
+          geom_line(aes(y=Avg_cellmean, colour="Avg_Gini"))+
+          geom_line(aes(y=CPS_Gini_NatlGB2_cellmean, colour="Gini_NatlGB2"))+
+          geom_line(aes(y=cellmean_gini, colour="cellmean_gini"))+
           geom_line(aes(y=Census_gini, colour="Census_gini"))+
           opts(title=i))
   dev.off()
 }
 
-ACS_NatlGB2.df<-data.table(ACS_NatlGB2.df)
-ACS_NatlGB2.df$year<-as.character(ACS_NatlGB2.df$year)
-ACS_NatlGB2.df$year<-as.numeric(ACS_NatlGB2.df$year)
-setkey(ACS_NatlGB2.df, MSA, year)
-try2<-ACS_NatlGB2.df[try1]
-colnames(try2)[3]<-"ACS_gini"
 
 
 

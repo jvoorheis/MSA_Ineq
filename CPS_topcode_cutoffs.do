@@ -4,37 +4,40 @@
 
 *Flagging all Topcoded observations (note: multiple income sources can be topcoded for a single observation)
 *Total Income (post 1988)
-replace inctot=99999 if inctot>=99999 & year<=1995 & inctot~=.
-replace inctot=150000 if inctot>=150000 & year>=1996 & year<=2002 & inctot~=.
-replace inctot=200000 if inctot>=200000 & year>=2003 & year<=2010 & inctot~=.
-replace inctot=250000 if inctot>=250000 & year>=2011 & inctot~=.
+replace inclongj=99999 if inclongj>=99999 & year<=1995 & inclongj~=.
+replace inclongj=150000 if inclongj>=150000 & year>=1996 & year<=2002 & inclongj~=.
+replace inclongj=200000 if inclongj>=200000 & year>=2003 & year<=2010 & inclongj~=.
+replace inclongj=250000 if inclongj>=250000 & year>=2011 & inclongj~=.
 
 *Wages
 replace incwage=50000 if incwage>=50000 & year<=1981 & incwage~=.
 replace incwage=75000 if incwage>=75000 & year>=1982 & year<=1984 & incwage~=.
-replace incwage=99999 if incwage>=99999 & year>=1985 & year<=1995 & incwage~=.
-replace incwage=25000 if incwage>=25000 & year>=1996 & year<=2002 & incwage~=.
-replace incwage=35000 if incwage>=35000 & year>=2003 & year<=2010 & incwage~=.
-replace incwage=47000 if incwage>=47000 & year==2011 & incwage~=.
-replace incwage=50000 if incwage>=50000 & year==2012 & incwage~=.
+replace incwage=99999 if incwage>=99999 & year>=1985 & year<=1987 & incwage~=.
+replace oincwage=99999 if oincwage>=99999 & year>=1988 & year<=1995 & oincwage~=.
+replace oincwage=25000 if oincwage>=25000 & year>=1996 & year<=2002 & oincwage~=.
+replace oincwage=35000 if oincwage>=35000 & year>=2003 & year<=2010 & oincwage~=.
+replace oincwage=47000 if oincwage>=47000 & year==2011 & oincwage~=.
+replace oincwage=50000 if oincwage>=50000 & year==2012 & oincwage~=.
 
 *Business/Self Employment Income
 replace incbus=50000 if incbus>=50000 & year<=1981 &incbus~=.
 replace incbus=75000 if incbus>=75000 & year>=1982 & year<=1984 &incbus~=.
-replace incbus=99999 if incbus>=99999 & year>=1985 & year<=1995 &incbus~=.
-replace incbus=40000 if incbus>=40000 & year>=1996 & year<=2002 &incbus~=.
-replace incbus=50000 if incbus>=50000 & year>=2003 & year<=2010 &incbus~=.
-replace incbus=60000 if incbus>=60000 & year==2011 &incbus~=.
-replace incbus=60000 if incbus>=60000 & year==2012 &incbus~=.
+replace incbus=99999 if incbus>=99999 & year>=1985 & year<=1987 &incbus~=.
+replace oincbus=99999 if oincbus>=99999 & year>=1988 & year<=1995 &oincbus~=.
+replace oincbus=40000 if oincbus>=40000 & year>=1996 & year<=2002 &oincbus~=.
+replace oincbus=50000 if oincbus>=50000 & year>=2003 & year<=2010 &oincbus~=.
+replace oincbus=60000 if oincbus>=60000 & year==2011 &oincbus~=.
+replace oincbus=60000 if oincbus>=60000 & year==2012 &oincbus~=.
 
 *Farm Income
 replace incfarm=50000 if incfarm>=50000 & year<=1981 &incfarm~=.
 replace incfarm=75000 if incfarm>=75000 & year>=1982 & year<=1984 &incfarm~=.
-replace incfarm=99999 if incfarm>=99999 & year>=1985 & year<=1995 &incfarm~=.
-replace incfarm=25000 if incfarm>=25000 & year>=1996 & year<=2002 &incfarm~=.
-replace incfarm=25000 if incfarm>=25000 & year>=2003 & year<=2010 &incfarm~=.
-replace incfarm=30000 if incfarm>=30000 & year==2011 &incfarm~=.
-replace incfarm=40000 if incfarm>=40000 & year==2012 &incfarm~=.
+replace incfarm=99999 if incfarm>=99999 & year>=1985 & year<=1987 &incfarm~=.
+replace oincfarm=99999 if oincfarm>=99999 & year>=1988 & year<=1995 &oincfarm~=.
+replace oincfarm=25000 if oincfarm>=25000 & year>=1996 & year<=2002 &oincfarm~=.
+replace oincfarm=25000 if oincfarm>=25000 & year>=2003 & year<=2010 &oincfarm~=.
+replace oincfarm=30000 if oincfarm>=30000 & year==2011 &oincfarm~=.
+replace oincfarm=40000 if oincfarm>=40000 & year==2012 &oincfarm~=.
 
 *SS Income
 replace incss=9999 if incss>=9999 & year<=1981 &incss~=.
@@ -82,10 +85,15 @@ replace incvet=99999 if incvet>=99999 & incvet~=.
 *Retirement Income
 replace incretir=50000 if incretir>=50000 & year<=1981 &incretir~=.
 replace incretir=75000 if incretir>=75000 & year>=1982 & year<=1984 &incretir~=.
-replace incretir=99999 if incretir>=99999 & year>=1985 & year<=1998 &incretir~=.
-replace incretir=45000 if incretir>=45000 & year>=1999 & year<=2010 &incretir~=.
-replace incretir=64000 if incretir>=64000 & year==2011 &incretir~=.
-replace incretir=67000 if incretir>=67000 & year==2012 &incretir~=.
+replace incretir=99999 if incretir>=99999 & year>=1985 & year<=1987 &incretir~=.
+replace increti1=99999 if increti1>=99999 & year>=1988 & year<=1998 &increti1~=.
+replace increti1=45000 if increti1>=45000 & year>=1999 & year<=2010 &increti1~=.
+replace increti1=64000 if increti1>=64000 & year==2011 &increti1~=.
+replace increti1=67000 if increti1>=67000 & year==2012 &increti1~=.
+replace increti2=99999 if increti2>=99999 & year>=1988 & year<=1998 &increti2~=.
+replace increti2=45000 if increti2>=45000 & year>=1999 & year<=2010 &increti2~=.
+replace increti2=64000 if increti2>=64000 & year==2011 &increti2~=.
+replace increti2=67000 if increti2>=67000 & year==2012 &increti2~=.
 
 *Other Income
 replace incaloth=50000 if incaloth>=50000 & year<=1981 &incaloth~=.
@@ -114,16 +122,26 @@ replace incchild=18300 if incchild>=18300 & year==2012 & incchild~=.
 replace incunemp=99999 if incunemp>=99999 &incunemp~=.
 
 *Survivor Benefits
-replace incsurv=99999 if incsurv>=99999 & year<=1998 & incsurv~=.
-replace incsurv=50000 if incsurv>=50000 & year>=1999 & year<=2010 & incsurv~=.
-replace incsurv=57600 if incsurv>=57600 & year==2011 & incsurv~=.
-replace incsurv=75000 if incsurv>=75000 & year==2012 & incsurv~=.
+replace incsurv=99999 if incsurv>=99999 & year<=1987 & incsurv~=.
+replace incsurv1=99999 if incsurv1>=99999 & year>=1988 & year<=1998 & incsurv1~=.
+replace incsurv1=50000 if incsurv1>=50000 & year>=1999 & year<=2010 & incsurv1~=.
+replace incsurv1=57600 if incsurv1>=57600 & year==2011 & incsurv1~=.
+replace incsurv1=75000 if incsurv1>=75000 & year==2012 & incsurv1~=.
+replace incsurv2=99999 if incsurv2>=99999 & year>=1988 & year<=1998 & incsurv2~=.
+replace incsurv2=50000 if incsurv2>=50000 & year>=1999 & year<=2010 & incsurv2~=.
+replace incsurv2=57600 if incsurv2>=57600 & year==2011 & incsurv2~=.
+replace incsurv2=75000 if incsurv2>=75000 & year==2012 & incsurv2~=.
 
 *Disability Benefits
-replace incdisab=99999 if incdisab>=99999 & year<=1998 & incdisab~=.
-replace incdisab=35000 if incdisab>=35000 & year>=1999 & year<=2010 & incdisab~=.
-replace incdisab=48000 if incdisab>=48000 & year==2011 & incdisab~=.
-replace incdisab=44000 if incdisab>=44000 & year==2012 & incdisab~=.
+replace incdisab=99999 if incdisab>=99999 & year<=1987 & incdisab~=.
+replace incdisa1=99999 if incdisa1>=99999 & year>=1988 & year<=1998 & incdisa1~=.
+replace incdisa1=35000 if incdisa1>=35000 & year>=1999 & year<=2010 & incdisa1~=.
+replace incdisa1=48000 if incdisa1>=48000 & year==2011 & incdisa1~=.
+replace incdisa1=44000 if incdisa1>=44000 & year==2012 & incdisa1~=.
+replace incdisa2=99999 if incdisa2>=99999 & year>=1988 & year<=1998 & incdisa2~=.
+replace incdisa2=35000 if incdisa2>=35000 & year>=1999 & year<=2010 & incdisa2~=.
+replace incdisa2=48000 if incdisa2>=48000 & year==2011 & incdisa2~=.
+replace incdisa2=44000 if incdisa2>=44000 & year==2012 & incdisa2~=.
 
 *Educational Assistance
 replace inceduc=99999 if inceduc>=99999 & year<=1998 & inceduc~=.
@@ -141,25 +159,27 @@ save "CPS_topcodes.dta", replace
 
 
 *Assumption 1: Treat business losses as income but truncate negative household incomes to zero
-egen incearned1 = rowtotal(incwage incbus incfarm incretir incint incother incdivid incalim incchild incidr incdrt incaloth incasist incrent)
-egen inctransfer1 = rowtotal(incss incwelfr incgov incssi incunemp incwkcom incvet incsurv incdisab inceduc)
-egen inc_cutoff1 = rowtotal(incearned1 inctransfer1)
+egen pre1987_inc = rowtotal(incwage incbus incfarm incss incssi incwelfr incint incdrt incidr incretir incaloth incgov)
+egen post1988_inc = rowtotal(inclongj oincbus oincfarm oincwage incss incssi incwelfr incint incdivid incrent incalim incchild incunemp incwkcom incvet increti1 increti2 incsurv1 incsurv2 incdisa1 incdisa2 inceduc incasist incother)
+
+gen inc_cutoff1 = pre1987_inc if year<=1987
+replace inc_cutoff1 = post1988_inc if year>=1988
 sort year serial
 egen hhincome_cutoff1 = total(inc_cutoff1), by(year serial)
-replace hhincome_cutoff1=0 if hhincome_cutoff1<0
+replace hhincome_cutoff1=0.01 if hhincome_cutoff1<=0
 
 *Assumption 2: Treat business losses like consumption (e.g. truncate business income to zero for losses, but still count other income sources towards hhincome)
-replace incbus = 0 if incbus<0 & incbus~=.
-replace incfarm=0 if incfarm<0 & incfarm~=.
-replace incother = 0 if incother<0 & incother~=.
-replace inceduc= 0 if inceduc<0 & inceduc~=.
-replace incrent = 0 if incrent<0 & incrent~=.
-replace incdrt=0 if incdrt<=0 & incdrt~=.
-replace incidr=0 if incidr<=0 & incidr~=.
-egen incearned2 = rowtotal(incwage incbus incfarm incretir incint incother incdivid incalim incchild incidr incdrt incaloth incasist incrent)
-egen inctransfer2 = rowtotal(incss incwelfr incgov incssi incunemp incwkcom incvet incsurv incdisab inceduc)
-egen inc_cutoff2 = rowtotal(incearned2 inctransfer2)
-sort year serial
-egen hhincome_cutoff2 = total(inc_cutoff2), by(year serial)
-replace hhincome=0.01 if hhincome<=0 & hhincome~=.
+*replace incbus = 0 if incbus<0 & incbus~=.
+*replace incfarm=0 if incfarm<0 & incfarm~=.
+*replace incother = 0 if incother<0 & incother~=.
+*replace inceduc= 0 if inceduc<0 & inceduc~=.
+*replace incrent = 0 if incrent<0 & incrent~=.
+*replace incdrt=0 if incdrt<=0 & incdrt~=.
+*replace incidr=0 if incidr<=0 & incidr~=.
+*egen incearned2 = rowtotal(incwage incbus incfarm incretir incint incother incdivid incalim incchild incidr incdrt incaloth incasist incrent)
+*egen inctransfer2 = rowtotal(incss incwelfr incgov incssi incunemp incwkcom incvet incsurv incdisab inceduc)
+*egen inc_cutoff2 = rowtotal(incearned2 inctransfer2)
+*sort year serial
+*egen hhincome_cutoff2 = total(inc_cutoff2), by(year serial)
+
 save "CPS_topcodes.dta", replace
