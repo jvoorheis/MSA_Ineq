@@ -539,4 +539,44 @@ phi_bootstrap<-function(pop1, pop2, reps){
   #return(ecdf(phi_hat)(T_n*max(pop_phi)))  
 }
 
-
+davidson_gini<-function(x, type="point"){
+  y_i<-sort(x)
+  y_args<-1:length(y_i)
+  w_i <- ((2*y_args-1)*y_i)/(2*length(y_i))
+  v_i <- apply(data.frame(y_args), 1, function(x) (1/length(y_i))*sum(y_i[1:x]))
+  I_hat <- mean(w_i)
+  G_hat <- length(y_i)*((2*I_hat/mean(y_i))-1)/(length(y_i)-1)
+  if (type=="point"){
+    return(G_hat)
+  }
+  else if (type=="var"){
+    Z_hat <-  2*(w_i - v_i)-(G_hat + 1)*y_i
+    var_G <- sum((Z_hat - mean(Z_hat))^2)/((length(y_i)*mean(y_i))^2)
+    return(var_G)
+  }
+  else if (type=="both"){
+    Z_hat <-  2*(w_i - v_i)-(G_hat + 1)*y_i
+    var_G <- sum((Z_hat - mean(Z_hat))^2)/((length(y_i)*mean(y_i))^2)
+    return(c(G_hat,var_G))
+  }
+}
+Lorenz_KB<-function(inc, weight="default", ordinate, type="mean"){
+  if (weight=="default"){
+    weight<-rep(1, length(inc))
+  }
+  #K&B survey sampling weights not implemented yet.
+  N <- length(inc)
+  xi_p <- quantile(inc, probs=ordinate)
+  N_hat<-sum(weight)
+  mu_hat <- mean(inc)
+  I_vec<-apply(data.frame(inc),1,function(x) if (x<=xi_p){1} else{0})
+  L_hat<-(1/(N_hat*mu_hat))*sum(weight*inc*I_vec)
+  if (type=="mean"){
+    return(L_hat)
+  }
+  else if (type == "variance"){
+    u_i <- (1/(N_hat*mu_hat))*((inc-xi_p)*I_vec + ordinate*xi_p - inc*L_hat)
+    var_hat <- N*var(u_i)*(sum(weight^2))
+    return(var_hat)
+  }
+}

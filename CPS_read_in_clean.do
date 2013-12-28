@@ -1,7 +1,9 @@
+
 set more off
 cd "$MSAINEQ/Data"
 *do "$MSAINEQ/Code/read_CPS.do"
-do "$MSAINEQ/Code/cps_00048.do"
+do "$MSAINEQ/Code/cps_00054.do"
+
 
 *Encode demographics for Larrimore cell mean imputation
 gen latino = (hispan~=. & hispan>0 & hispan<900)
@@ -11,6 +13,8 @@ gen female = sex == 2
 gen fulltime = (hrswork>=35 & wkswork1>=50) | (uhrswork>=35 & wkswork1>=50)
 
 *Recode missing (NIU) values
+recode hhincome (99999999=.)
+drop if hhincome ==.
 recode inclongj (999999=.)
 recode inctot (99999999=.)
 recode ftotval (99999999=.)
@@ -62,8 +66,12 @@ recode hrswork (0=.)
 recode classwkr (0=.) (99=.)
 recode actccrd (99999 = .)
 recode ctccrd (999999 = .)
-
-
+recode frelunch (99=0) (98=0)
+recode gotwic (1=0) (2=1) 
+recode rentsub (1=0) (2=1)
+recode pubhous (1=0) (2=1)  
+recode emcontrb (9999=.)
+recode fica (99999=.)
 
 
 
@@ -120,6 +128,18 @@ replace inclongj=9999999 if inclongj==9999997
 *replace incdrt=0 if incdrt<=0 & incdrt~=.
 *replace incidr=0 if incidr<=0 & incidr~=.
 
+gen under6 = age<6
+replace under6 = age<6 & age~=.
+gen numadults = age>=18
+gen over6male = age>=6 & age<18 & sex==1
+gen over6female = age>=6 & age<18 & sex==2
+egen hh_under6 = total(under6), by(year serial)
+egen hh_over6male = total(over6male), by(year serial)
+egen hh_over6female = total(over6female), by(year serial)
+egen hh_adults = total(numadults), by(year serial)
+gen eligible_rooms = round(hh_adults/2)
+replace eligible_rooms = round(hh_adults/2) + round(hh_under6/2) + round(hh_over6male/2) + round(hh_over6female/2)
+replace eligible_rooms=4 if eligible_rooms>4
+
+
 save CPS_raw_microdata.dta, replace
-
-

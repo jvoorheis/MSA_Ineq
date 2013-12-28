@@ -342,15 +342,63 @@ replace oincbus_cellmean = 357471 if oincbus>=99999 & female==1 & fulltime==0 & 
 *Secondary Farm income is either untopcoded or there is no usable information in the internal CPS
 *This is also true for the miscellaneous other income sources in the CPS from 1988-1995.
 
-egen post1988_cellmean = rowtotal(inclongj_cellmean oincbus_cellmean oincfarm oincwage_cellmean incss incssi incwelfr incint incdivid incrent incalim incchild incunemp incwkcom incvet increti1 increti2 incsurv1 incsurv2 incdisa1 incdisa2 inceduc incasist incother) if year>=1988 & year<=1995
+*For after tax analysis: treat business losses as consumption/investment rather than income: truncate each income source at 0
+replace incbus=0 if incbus<0
+replace incfarm=0 if incfarm<0
+replace incrent = 0 if incrent<0
+replace incdrt = 0 if incdrt<0
+replace incidr = 0 if incidr < 0
+replace oincbus = 0 if oincbus<0
+replace oincfarm = 0 if oincfarm<0
+replace inclongj = 0 if inclongj<0
+
+replace incbus_cellmean = 0 if incbus_cellmean<0
+replace incfarm_cellmean = 0 if incfarm_cellmean<0
+replace incdrt_cellmean=0 if incdrt_cellmean<0
+replace inclongj_cellmean=0 if inclongj_cellmean<0
+replace oincbus_cellmean=0 if oincbus_cellmean<0
+
+
+
+egen post1988_cellmean = rowtotal(inclongj_cellmean oincbus_cellmean oincfarm oincwage_cellmean incss incssi incwelfr incint incdivid incrent incalim incchild incunemp incwkcom incvet increti1 increti2 incsurv1 incsurv2 incdisa1 incdisa2 inceduc incasist incother) if year>=1988 
 sort year serial
 egen hhincome_post1988cellmean = total(post1988_cellmean), by(year serial)
 egen pre1987_cellmean = rowtotal(incwage_cellmean incbus_cellmean incfarm_cellmean incss_cellmean incssi_cellmean incwelfr_cellmean incint_cellmean incdrt_cellmean incidr incretir_cellmean incaloth_cellmean incgov_cellmean)
 sort year serial
 egen hhincome_cellmean = total(pre1987_cellmean), by(year serial)
-replace hhincome_cellmean = hhincome_post1988cellmean if year<=1995 & year>=1988
+replace hhincome_cellmean = hhincome_post1988cellmean if year>=1988
 replace hhincome_cellmean = hhincome if year>1995 | year<1976
 replace hhincome_cellmean=0.01 if hhincome_cellmean<=0
+
+replace incbus=0 if incbus<0
+replace incfarm=0 if incfarm<0
+replace incrent = 0 if incrent<0
+replace incdrt = 0 if incdrt<0
+replace incidr = 0 if incidr < 0
+replace oincbus = 0 if oincbus<0
+replace oincfarm = 0 if oincfarm<0
+replace inclongj = 0 if inclongj<0
+
+replace incbus_cellmean = 0 if incbus_cellmean<0
+replace incfarm_cellmean = 0 if incfarm_cellmean<0
+replace incdrt_cellmean=0 if incdrt_cellmean<0
+replace inclongj_cellmean=0 if inclongj_cellmean<0
+replace oincbus_cellmean=0 if oincbus_cellmean<0
+
+egen post1988_cellmean_alt = rowtotal(inclongj_cellmean oincbus_cellmean oincfarm oincwage_cellmean incss incssi incwelfr incint incdivid incrent incalim incchild incunemp incwkcom incvet increti1 increti2 incsurv1 incsurv2 incdisa1 incdisa2 inceduc incasist incother) if year>=1988 
+sort year serial
+egen hhincome_post1988_alt = total(post1988_cellmean), by(year serial)
+egen pre1987_cellmean_alt = rowtotal(incwage_cellmean incbus_cellmean incfarm_cellmean incss_cellmean incssi_cellmean incwelfr_cellmean incint_cellmean incdrt_cellmean incidr incretir_cellmean incaloth_cellmean incgov_cellmean)
+egen hhincome_cellmean_alt = total(pre1987_cellmean_alt), by(year serial)
+replace hhincome_cellmean_alt = hhincome_post1988_alt if year>=1988
+
+egen post1988_cellmean_pretrans = rowtotal(inclongj_cellmean oincbus_cellmean oincfarm oincwage_cellmean  incint incdivid incrent incalim incchild incwkcom  increti1 increti2 incsurv1 incsurv2 inceduc incother) if year>=1988 
+egen hhincome_post1988_pretrans = total(post1988_cellmean_pretrans), by(year serial)
+egen pre1987_cellmean_pretrans = rowtotal(incwage_cellmean incbus_cellmean incfarm_cellmean incint_cellmean incdrt_cellmean incidr incretir_cellmean incaloth_cellmean)
+egen hhincome_cellmean_pretrans = total(pre1987_cellmean_pretrans), by(year serial)
+replace hhincome_cellmean_pretrans = hhincome_post1988_pretrans if year>=1988
+
+
 
 save "$MSAINEQ/Data/CPS_raw_microdata.dta", replace 
 

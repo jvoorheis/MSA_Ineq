@@ -1,4 +1,4 @@
-set more off
+
 clear
 do "$MSAINEQ/Code/CPS_read_in_clean.do"
 clear
@@ -15,8 +15,10 @@ clear
 use "$MSAINEQ/Data/CPS_topcodes.dta"
 do "$MSAINEQ/Code/CPS_MSA_finalcleaning.do"
 
+set more off
 use "$MSAINEQ/Data/CPS_topcode_MSA_demo_tax.dta", clear
 do "$MSAINEQ/Code/taxable_demographics.do"
+
 
 *For State-level analysis, final cleaning step
 *clear

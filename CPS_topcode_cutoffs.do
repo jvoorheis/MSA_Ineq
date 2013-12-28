@@ -162,11 +162,20 @@ save "CPS_topcodes.dta", replace
 egen pre1987_inc = rowtotal(incwage incbus incfarm incss incssi incwelfr incint incdrt incidr incretir incaloth incgov)
 egen post1988_inc = rowtotal(inclongj oincbus oincfarm oincwage incss incssi incwelfr incint incdivid incrent incalim incchild incunemp incwkcom incvet increti1 increti2 incsurv1 incsurv2 incdisa1 incdisa2 inceduc incasist incother)
 
+egen pre1987_inc_pretrans = rowtotal(incwage incbus incfarm  incint incdrt incidr incretir incaloth )
+egen post1988_inc_pretrans = rowtotal(inclongj oincbus oincfarm oincwage incint incdivid incrent incalim incchild  incwkcom increti1 increti2 incsurv1 incsurv2 inceduc incother)
+
+
 gen inc_cutoff1 = pre1987_inc if year<=1987
 replace inc_cutoff1 = post1988_inc if year>=1988
 sort year serial
 egen hhincome_cutoff1 = total(inc_cutoff1), by(year serial)
 replace hhincome_cutoff1=0.01 if hhincome_cutoff1<=0
+
+gen inc_cutoff1_pretrans = pre1987_inc_pretrans if year<=1987
+replace inc_cutoff1_pretrans = post1988_inc_pretrans if year>=1988
+egen hhincome_cutoff1_pretrans = total(inc_cutoff1_pretrans), by(year serial)
+replace hhincome_cutoff1_pretrans=0.01 if hhincome_cutoff1_pretrans<=0
 
 *Assumption 2: Treat business losses like consumption (e.g. truncate business income to zero for losses, but still count other income sources towards hhincome)
 *replace incbus = 0 if incbus<0 & incbus~=.
