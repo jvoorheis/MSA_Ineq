@@ -1,0 +1,179 @@
+library(ggplot2)
+library(GB2)
+ratio9010f<-function(inc){
+  return(quantile(inc, probs=0.9)/(quantile(inc,probs=0.1)+0.000001))
+}
+ratio95medf<-function(inc){
+  return(quantile(inc, probs=0.95)/(quantile(inc,probs=0.5)+0.000001))
+}
+ratio99medf<-function(inc){
+  return(quantile(inc, probs=0.99)/(quantile(inc,probs=0.5)+0.000001))
+}
+generate_gini_plots<-function(units, inc_data){
+  for (i in units){
+    temp.df<-subset(inc_data, inc_data$MSA==i)
+    temp.MSA<-unlist(strsplit(i, "/"))[1]
+    filename<-paste(temp.MSA, ".jpg", sep="")
+    jpeg(file=filename)
+    print(ggplot(temp.df, aes(year)) + 
+            geom_line(aes(y=Gini_GB2, colour="gini"))+
+            opts(title=i))
+    dev.off()
+  }
+}
+generate_gini_plots_state<-function(units, inc_data, type="gini"){
+  for (i in units){
+    temp.df<-subset(inc_data, inc_data$State==i)
+    temp.MSA<-unlist(strsplit(i, "/"))[1]
+    filename<-paste(temp.MSA, "_", type, ".png", sep="")
+    if (type=="gini"){
+    png(file=filename)
+    print(ggplot(temp.df, aes(year)) + 
+            geom_line(aes(y=Gini_StateGB2, colour="gini"))+
+            opts(title=i))
+    dev.off()
+    }
+    if (type=="top1"){
+      png(file=filename)
+      print(ggplot(temp.df, aes(year)) + 
+              geom_line(aes(y=Top1Share, colour="Top1"))+
+              opts(title=i))
+      dev.off()      
+    }
+  }
+}
+sqrt_eq<-function(pernum){
+  return(sqrt(max(pernum)))
+}
+topcode_sub<-function(inc, fit2){
+  if (inc>0){
+    bottom<-pgb2(inc, fit2$opt1$par[1], fit2$opt1$par[2], fit2$opt1$par[3], fit2$opt1$par[4])
+    return(qgb2(runif(1,min=bottom, max=1), fit2$opt1$par[1], fit2$opt1$par[2], fit2$opt1$par[3], fit2$opt1$par[4]))
+  }
+  else{
+    return(inc)
+  }  
+}
+top1share<-function(inc, weights=c(rep(1, length(inc)))){
+    temp.df<-subset(data.frame(inc, weights), data.frame(inc, weights)$weights==1)
+    top1<-quantile(temp.df$inc, probs=0.99)
+    return(sum(subset(temp.df, temp.df$inc>=top1)$inc)/sum(temp.df$inc))
+}
+ACS_trunc<-function(inc){
+  if (inc>0){
+    return(1)
+  }
+  else{
+    return(0)
+  }
+}
+X_split<-function(year){
+  return(unlist(strsplit(year, "X"))[2])
+}
+state_strip<-function(msa){
+  return(unlist(strsplit(msa, ","))[2])
+}
+DC_switch<-function(state){
+  if (state=="Washington DC"){
+    return("District of Columbia")
+  }
+  else{
+    return(state)
+  }
+}
+lorenz_point<-function(income, weights=c(rep(1, length(income))), ordinate=0.5){
+  n <- length(income)
+  L_temp<-Lc(income, n=weights)
+  if (ordinate*n %% 1 ==0){
+    return(L_temp$L[as.integer(ordinate*n)])
+  }
+  else if (ordinate*n %% 1 != 0){
+    return(mean(c(L_temp$L[as.integer(ordinate*n)], L_temp$L[as.integer(ordinate*n)+1])))
+  }
+}
+
+Census_9010fix<-function(Census_NatlGB2.df){
+#must load Census.work.hh first!
+for (i in 1:length(Census_NatlGB2.df$year)){
+  if (Census_NatlGB2.df$X9010_ratio[i]>100){
+    Census_NatlGB2.df$X9010_ratio[i]<-ratio9010f(subset(Census.work.hh, Census.work.hh$cellmean_equivinc>0.01 &
+                                                          Census.work.hh$MSA==Census_NatlGB2.df$MSA[i] & 
+                                                          Census.work.hh$year==Census_NatlGB2.df$year[i])$cellmean_equivinc)
+  }
+}
+return(Census_NatlGB2.df)
+}
+
+ACS_9010fix<-function(ACS_NatlGB2.df){
+  #must load ACS.work.hh first!
+  for (i in 1:length(ACS_NatlGB2.df$year)){
+    if (ACS_NatlGB2.df$X9010_ratio[i]>100){
+      ACS_NatlGB2.df$X9010_ratio[i]<-ratio9010f(subset(ACS.work.hh, ACS.work.hh$cellmean_equivinc>0.01 &
+                                                            ACS.work.hh$MSA==ACS_NatlGB2.df$MSA[i] & 
+                                                            ACS.work.hh$year==ACS_NatlGB2.df$year[i])$cellmean_equivinc)
+    }
+  }
+  return(ACS_NatlGB2.df)
+}
+Lorenz_test_result<-function(test_stat){
+  if (max(test_stat, na.rm=T)>=3.01&min(test_stat, na.rm=T)>=-3.01){
+    return("A dominates B")
+  }
+  if (min(test_stat, na.rm=T)<=-3.01&max(test_stat, na.rm=T)<=3.01){
+    return("B dominates A")
+  }
+  else if (max(test_stat, na.rm=T)<3.01&min(test_stat, na.rm=T)>-3.01){
+    return("No dominance")
+  }
+  if (min(test_stat, na.rm=T)<=-3.01&max(test_stat, na.rm=T)>=3.01){
+    return("Lorenz curves cross")
+  }
+}
+A_dom_B<-function(test_stat){
+  if (max(test_stat, na.rm=T)>=3.01&min(test_stat, na.rm=T)>=-3.01){
+    return(1)
+  }
+  else{
+    return(0)
+  }
+}
+B_dom_A<-function(test_stat){
+  if (min(test_stat, na.rm=T)<=-3.01&max(test_stat, na.rm=T)<=3.01){
+    return(1)
+  }
+  else{
+    return(0)
+  }
+}
+Lorenz_cross<-function(test_stat){
+  if (min(test_stat, na.rm=T)<=-3.01&max(test_stat, na.rm=T)>=3.01){
+    return(1)
+  }
+  else{
+    return(0)
+  }
+}
+lorenz_point_vector<-function(income, weights=c(rep(1, length(income))), ordinates=19){
+  n <- length(income)
+  L_temp<-Lc(income, n=weights)
+  lorenz_ords<-c(rep(0, ordinates))
+  if ((i/(ordinates+1))*n %% 1 ==0){
+    for (i in 1:ordinates){
+      lorenz_ords[i]<-L_temp$L[as.integer((i/(ordinates+1))*n)]
+    }
+    return(lorenz_ords)
+  }
+  else if ((i/(ordinates+1))*n %% 1 != 0){
+    for (i in 1:ordinates){
+      lorenz_ords[i]<-mean(c(L_temp$L[as.integer((i/(ordinates+1))*n)], L_temp$L[as.integer((i/(ordinates+1))*n)+1]))
+    }
+    return(lorenz_ords)
+  }
+}
+lorenz_var_vector<-function(income, weights=c(rep(1, length(income))), ordinates=19){
+  lorenz_var<-c(rep(0, ordinates))
+  for (i in 1:ordinates){
+    lorenz_var[i]<-var(boot(income, lorenz_point, 200, ordinate=(i/(ordinates+1)))$t)
+  }
+  return(lorenz_var)
+}

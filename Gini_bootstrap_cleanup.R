@@ -1,0 +1,13 @@
+All_results<-data.frame()
+load("/media/john/Shared Linux_Windows Files/MSA Level Inequality/Data/Gini_bootstrap/tempfile19942002.rda")
+All_results<-rbind(All_results, test_results)
+load("/media/john/Shared Linux_Windows Files/MSA Level Inequality/Data/Gini_bootstrap/tempfile20112012.rda")
+All_results<-rbind(All_results, test_results)
+load("/media/john/Shared Linux_Windows Files/MSA Level Inequality/Data/Gini_bootstrap/tempfile19942012.rda")
+All_results<-rbind(All_results, test_results)
+All_results<-subset(All_results, All_results$year_1>=2005)
+
+rejects_gini<-subset(All_results, All_results$Pval_gini>=0.95)
+rejects_top1<-subset(All_results, All_results$Pval_top1>=0.95)
+rejects_9010<-subset(All_results, All_results$Pval_9010>=0.95)
+rejects_theil<-subset(All_results, All_results$P_val_theil>=0.95)
